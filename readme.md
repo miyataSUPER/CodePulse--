@@ -1,4 +1,5 @@
 # プロジェクト名: CodePulse--
+![Status](https://img.shields.io/badge/status-開発中-blue)
 
 ## 概要
 
