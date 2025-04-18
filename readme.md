@@ -29,9 +29,7 @@
 *   ファイルのエンコーディングによっては、行数のカウントが不正確になる可能性があります（初期はUTF-8を想定）。
 *   複雑なコメント構造（例: ブロックコメント内に一行コメントが混在する場合）の解析は、初期バージョンでは簡略化される可能性があります。
 
-## 使い方
-
-### ビルド
+## インストール
 
 ```bash
 # プロジェクトの初期化
@@ -44,7 +42,86 @@ go mod tidy
 go build
 ```
 
-### テスト実行
+## 使用方法
+
+### 基本的な使い方
+
+```bash
+# カレントディレクトリの統計情報を表示（デフォルト設定）
+./codepulse
+
+# 特定のディレクトリの統計情報を表示
+./codepulse ./path/to/directory
+```
+
+### オプション
+
+```bash
+# ヘルプを表示
+./codepulse --help
+
+# 真偽値オプション
+./codepulse --enable        # 特定の機能を有効化
+./codepulse --verbose       # 詳細な出力を表示
+
+# 出力形式の指定
+./codepulse --format json   # JSON形式で出力（デフォルト）
+./codepulse --format csv    # CSV形式で出力
+./codepulse --format xml    # XML形式で出力
+
+# 数値オプション
+./codepulse --number 10     # 表示する結果の数を指定
+
+# 文字列オプション
+./codepulse --title "統計情報"  # 出力のタイトルを指定
+```
+
+### 出力例（デフォルト形式）
+
+```
+統計情報
+========
+
+Language  Files  Lines  Code  Comments  Blanks
+Go        5      1000   800   100       100
+Python    3      500    400   50        50
+Total     8      1500   1200  150       150
+```
+
+### 出力例（JSON形式）
+
+```json
+{
+  "title": "統計情報",
+  "languages": [
+    {
+      "name": "Go",
+      "files": 5,
+      "lines": 1000,
+      "code": 800,
+      "comments": 100,
+      "blanks": 100
+    },
+    {
+      "name": "Python",
+      "files": 3,
+      "lines": 500,
+      "code": 400,
+      "comments": 50,
+      "blanks": 50
+    }
+  ],
+  "total": {
+    "files": 8,
+    "lines": 1500,
+    "code": 1200,
+    "comments": 150,
+    "blanks": 150
+  }
+}
+```
+
+## テスト
 
 ```bash
 # すべてのテストを実行
@@ -54,16 +131,6 @@ go test -v
 go test -v -run Test_hello
 ```
 
-### 実行
-
-```bash
-# カレントディレクトリの統計情報を表示
-./codepulse
-
-# 特定のディレクトリ './src' の統計情報を表示
-./codepulse ./src
-```
-
 ## プロジェクト構造
 
 ```
@@ -71,16 +138,8 @@ go test -v -run Test_hello
 ├── main.go          # メインアプリケーションコード
 ├── main_test.go     # テストコード
 ├── go.mod           # Goモジュール定義
+├── LICENSE          # ライセンスファイル
 └── README.md        # プロジェクトドキュメント
 ```
-
-## 今後の改善点 (TODO/FIXME)
-
-*   **TODO:** 対応言語を増やす。
-*   **TODO:** 特定のファイルやディレクトリを除外する機能を追加する。
-*   **TODO:** 出力形式（JSON, YAMLなど）を選択できるようにする。
-*   **TODO:** パフォーマンスを改善する（例: 並列処理の導入）。
-*   **FIXME:** コメント行のカウント精度を向上させる。
-
 
 
