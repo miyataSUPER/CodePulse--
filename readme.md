@@ -1,5 +1,6 @@
 # プロジェクト名: CodePulse--
 ![Status](https://img.shields.io/badge/status-開発中-blue)
+![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go)
 
 ## 概要
 
@@ -26,34 +27,49 @@
 *   ファイルのエンコーディングによっては、行数のカウントが不正確になる可能性があります（初期はUTF-8を想定）。
 *   複雑なコメント構造（例: ブロックコメント内に一行コメントが混在する場合）の解析は、初期バージョンでは簡略化される可能性があります。
 
-## 使い方 (想定例)
+## 使い方
+
+### ビルド
+
+```bash
+# プロジェクトの初期化
+go mod init github.com/miyataSUPER/CodePulse--
+
+# 依存関係のインストール
+go mod tidy
+
+# ビルド
+go build
+```
+
+### テスト実行
+
+```bash
+# すべてのテストを実行
+go test -v
+
+# 特定のテストを実行
+go test -v -run Test_hello
+```
+
+### 実行
 
 ```bash
 # カレントディレクトリの統計情報を表示
-codestats
+./codepulse
 
 # 特定のディレクトリ './src' の統計情報を表示
-codestats ./src
+./codepulse ./src
 ```
 
+## プロジェクト構造
 
-
-## ビルドと実行 (シェルスクリプト例 - Linux/macOS)
-
-```sh
-#!/bin/bash
-# --- ビルドスクリプト (開発言語に応じて要変更) ---
-echo "Building CodeStatsCLI..."
-# ここにビルドコマンドを記述 (例: cargo build --release)
-if [ $? -ne 0 ]; then
-    echo "Build failed!"
-    exit 1
-fi
-echo "Build successful."
-
-# --- 実行スクリプト ---
-echo "Running CodeStatsCLI..."
-# ここに実行コマンドを記述 (例: ./target/release/codestats "$@")
+```
+.
+├── main.go          # メインアプリケーションコード
+├── main_test.go     # テストコード
+├── go.mod           # Goモジュール定義
+└── README.md        # プロジェクトドキュメント
 ```
 
 ## 今後の改善点 (TODO/FIXME)
