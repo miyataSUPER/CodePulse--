@@ -1,6 +1,7 @@
 # プロジェクト名: CodePulse--
 ![Status](https://img.shields.io/badge/status-開発中-blue)
 ![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## 概要
 
