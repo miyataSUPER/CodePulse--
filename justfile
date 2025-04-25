@@ -1,4 +1,5 @@
 # アプリケーション名とバージョン情報
+
 App := 'CodePulse--'
 Version := `grep '^const VERSION = ' main.go | sed "s/^VERSION = \"\(.*\)\"/\1/g"`
 
