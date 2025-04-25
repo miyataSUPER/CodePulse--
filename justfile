@@ -12,7 +12,7 @@ Version := `grep '^const VERSION = ' main.go | sed "s/^VERSION = \"\(.*\)\"/\1/g
 
 # ビルドとテストの実行
 build: test
-    go build -o codepulse main.go
+    go build -o codepulse cmd/main/main.go
 
 # テストの実行
 test:
