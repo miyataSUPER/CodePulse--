@@ -147,13 +147,13 @@ go test -v -run Test_hello
 ## 今週の課題
 
 1. **CI/CDの設定**
-   - `.github/workflows/build.yaml`の作成
-   - 動作確認の実施
+   - `.github/workflows/build.yaml`の作成 done
+   - 動作確認の実施 done
 
 2. **コード品質の可視化**
-   - Coverallsへのリポジトリ登録
+   - Coverallsへのリポジトリ登録 done
      - https://coveralls.io/
-   - Go Report Cardへのリポジトリ登録
-   - 各バッジをREADME.mdに追加
+   - Go Report Cardへのリポジトリ登録 done
+   - 各バッジをREADME.mdに追加 done
 
 
