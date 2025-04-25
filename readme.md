@@ -3,6 +3,8 @@
 ![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/miyataSUPER/CodePulse--)](https://goreportcard.com/report/github.com/miyataSUPER/CodePulse--)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Coverage Status](https://coveralls.io/repos/github/miyataSUPER/CodePulse--/badge.svg?branch=main)](https://coveralls.io/github/miyataSUPER/CodePulse--?branch=main)
+[![build](https://github.com/miyataSUPER/CodePulse--/actions/workflows/build.yaml/badge.svg)](https://github.com/miyataSUPER/CodePulse--/actions/workflows/build.yaml)
 
 ## 概要
 
