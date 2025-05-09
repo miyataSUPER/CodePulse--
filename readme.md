@@ -3,8 +3,6 @@
 ![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/miyataSUPER/CodePulse--)](https://goreportcard.com/report/github.com/miyataSUPER/CodePulse--)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Coverage Status](https://coveralls.io/repos/github/miyataSUPER/CodePulse--/badge.svg?branch=main)](https://coveralls.io/github/miyataSUPER/CodePulse--?branch=main)
-[![build](https://github.com/miyataSUPER/CodePulse--/actions/workflows/build.yaml/badge.svg)](https://github.com/miyataSUPER/CodePulse--/actions/workflows/build.yaml)
 
 ## 概要
 
@@ -147,13 +145,13 @@ go test -v -run Test_hello
 ## 今週の課題
 
 1. **CI/CDの設定**
-   - `.github/workflows/build.yaml`の作成 done
-   - 動作確認の実施 done
+   - `.github/workflows/build.yaml`の作成
+   - 動作確認の実施
 
 2. **コード品質の可視化**
-   - Coverallsへのリポジトリ登録 done
+   - Coverallsへのリポジトリ登録
      - https://coveralls.io/
-   - Go Report Cardへのリポジトリ登録 done
-   - 各バッジをREADME.mdに追加 done
+   - Go Report Cardへのリポジトリ登録
+   - 各バッジをREADME.mdに追加
 
 
