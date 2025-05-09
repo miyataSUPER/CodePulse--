@@ -1,0 +1,78 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+#
+# 概要:
+#   mainブランチへのpush時に、プロジェクトルートのVERSIONファイルのPATCHバージョンを自動インクリメントし、
+#   その内容をコミット・タグ付け・プッシュするGitHub Actionsワークフローです。
+# 主な仕様:
+#   - VERSIONファイルがなければ0.1.0で新規作成
+#   - セマンティックバージョニング(MAJOR.MINOR.PATCH)のPATCHのみ+1
+#   - mainブランチへのpushでのみ動作
+#   - コミット・タグは自動で作成
+#   - エラー時は詳細なログを出力
+# 制限事項:
+#   - MAJOR/MINORの自動判定やgo.mod等他ファイルの自動更新は未対応
+#   - 複数回push時の競合には未対応
+# TODO:
+#   - コミットメッセージやタグ命名規則のカスタマイズ
+#   - MAJOR/MINOR自動判定や他ファイル対応
+#   - PRマージ時のみ動作等の条件追加
+# FIXME:
+#   - 競合時のリトライ処理
+
+name: バージョン自動更新
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: チェックアウト
+        uses: actions/checkout@v4
+
+      - name: Gitユーザー設定
+        run: |
+          git config user.name 'GitHub Actions'
+          git config user.email 'actions@github.com'
+
+      - name: VERSIONファイルの存在確認と初期化
+        id: version_file
+        run: |
+          if [ ! -f VERSION ]; then
+            echo '0.1.0' > VERSION
+            echo '初期VERSIONファイル作成: 0.1.0'
+          fi
+          echo "current_version=$(cat VERSION)" >> $GITHUB_OUTPUT
+
+      - name: PATCHバージョンを+1
+        id: bump
+        run: |
+          version=$(cat VERSION)
+          IFS='.' read -r major minor patch <<< "$version"
+          if [[ -z "$major" || -z "$minor" || -z "$patch" ]]; then
+            echo "[エラー] VERSIONファイルのフォーマットが不正: $version" >&2
+            exit 1
+          fi
+          patch=$((patch+1))
+          new_version="$major.$minor.$patch"
+          echo "$new_version" > VERSION
+          echo "new_version=$new_version" >> $GITHUB_OUTPUT
+          echo "バージョンを $version → $new_version に更新"
+
+      - name: 変更をコミット・プッシュ
+        run: |
+          git add VERSION
+          git commit -m "[update] バージョンを自動更新: ${{ steps.bump.outputs.new_version }}"
+          git tag "v${{ steps.bump.outputs.new_version }}"
+          git push origin main --follow-tags
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # 今後の拡張例:
+      # - go.modや他ファイルの自動更新
+      # - MAJOR/MINORの自動判定
+      # - PRマージ時のみ動作
+      # - 競合時のリトライ処理 
