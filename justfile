@@ -16,7 +16,7 @@ Version := if path_exists("VERSION") == "true" { `cat VERSION 2>/dev/null || ech
 
 # ビルドとテストの実行
 build: test
-    cd cmd/main && go build -o ../../{{ App }}
+    cd cmd/main && go build -o ../../{{ App }} .
 
 # テストの実行
 @test:
