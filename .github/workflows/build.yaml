@@ -26,17 +26,18 @@ jobs:
         with:
           go-version: 1.21
 
-      - uses: extractions/setup-just@v1
+      - name: setup just
+        uses: extractions/setup-just@v1
         with:
           just-version: '1.14.0'
 
       - name: go mod tidy
         run: go mod tidy
 
-      - name: デバッグ: cmd/mainディレクトリ一覧
+      - name: debug directory
         run: ls -l cmd/main
 
-      - name: デバッグ: filetype.go内容
+      - name: debug filetype
         run: cat cmd/main/filetype.go
 
       - name: build and test
