@@ -16,10 +16,18 @@ Version := if path_exists("VERSION") == "true" { `cat VERSION 2>/dev/null || ech
 
 # ビルドとテストの実行
 build: tidy
+    # 依存関係の整理
+    go mod tidy
+    # ビルド実行
     cd cmd/main && go build -o ../../{{ App }} .
+    # ビルド成功メッセージ
+    echo "ビルドが成功しました: ../../{{ App }}"
 
 # テストの実行
 @test: tidy
+    # 依存関係の整理
+    go mod tidy
+    # テスト実行
     cd cmd/main && go test -v -covermode=count -coverprofile=../../coverage.out .
 
 # 実行ファイルの起動
