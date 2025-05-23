@@ -20,7 +20,7 @@ build: test
 
 # テストの実行
 @test:
-    cd cmd/main && go test -v -covermode=count -coverprofile=../../coverage.out ./...
+    cd cmd/main && go test -v -covermode=count -coverprofile=../../coverage.out .
 
 # 実行ファイルの起動
 @run: build
