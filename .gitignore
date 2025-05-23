@@ -1,6 +1,8 @@
 # Goバイナリファイル
 cmd/main/main
 main
+CodePulse++
+codepulse
 *.exe
 *.exe~
 *.dll
@@ -11,6 +13,9 @@ main
 *.test
 *.out
 coverage.txt
+coverage.out
+coverage.html
+coverage.lcov
 
 # 依存関係
 vendor/
