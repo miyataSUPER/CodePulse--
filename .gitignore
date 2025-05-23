@@ -1,0 +1,37 @@
+# Goバイナリファイル
+cmd/main/main
+main
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Goテスト結果
+*.test
+*.out
+coverage.txt
+
+# 依存関係
+vendor/
+
+# IDEファイル
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS関連
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log 

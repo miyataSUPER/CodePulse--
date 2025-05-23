@@ -1,4 +1,4 @@
-# プロジェクト名: CodePulse--
+# プロジェクト名: CodePulse++
 ![Status](https://img.shields.io/badge/status-開発中-blue)
 ![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/miyataSUPER/CodePulse--)](https://goreportcard.com/report/github.com/miyataSUPER/CodePulse--)
@@ -6,120 +6,135 @@
 
 ## 概要
 
-指定されたディレクトリ内のソースコードに関する統計情報（行数、ファイル数、言語ごとの内訳など）を表示するコマンドラインインターフェース（CLI）アプリケーションです。`tokei`リスペクト。
+ファイル名の拡張子に基づいてファイル種別を判定するGo言語ライブラリです。テキスト、画像、音声、動画、ドキュメント、スクリプト、実行ファイル、アーカイブなど、様々なファイル種別を自動判定できます。
 
 ## 主な仕様
 
-1.  **統計情報の収集:**
-    *   指定されたディレクトリ（デフォルトはカレントディレクトリ）を再帰的に探索します。
-    *   認識されたプログラミング言語のソースファイルを識別します。
-    *   各ファイルについて、コード行、コメント行、空白行の数をカウントします。
-    *   言語ごとに統計情報を集計します。
-    *   プロジェクト全体の統計情報（合計ファイル数、合計行数など）を集計します。
-2.  **結果の表示:**
-    *   言語ごとのファイル数、コード行、コメント行、空白行、合計行数を表形式でコンソールに表示します。
-    *   プロジェクト全体の合計ファイル数、コード行、コメント行、空白行、合計行数を表示します。
-3.  **対応言語:**
-    *   初期バージョンでは、いくつかの主要な言語に対応します（具体的な言語は要検討）。
-    *   将来的には対応言語を容易に拡張できる設計を目指します。
+1.  **ファイル種別判定機能:**
+    *   ファイル名（拡張子）に基づいて、8つのカテゴリのファイル種別を判定します。
+    *   テキストファイル（.txt, .md, .csv, .log）
+    *   画像ファイル（.jpg, .jpeg, .png, .gif, .bmp, .svg, .webp）
+    *   音声ファイル（.mp3, .wav, .ogg, .flac, .aac）
+    *   動画ファイル（.mp4, .avi, .mov, .wmv, .flv, .mkv）
+    *   ドキュメントファイル（.pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx）
+    *   スクリプトファイル（.sh, .bat, .ps1, .py, .rb, .pl, .js, .ts）
+    *   実行ファイル（.exe, .dll, .so, .bin, .app）
+    *   アーカイブファイル（.zip, .tar, .gz, .bz2, .rar, .7z, .xz, .tar.gz, .tar.bz2, .tar.xz, .tgz, .tbz2, .lz, .lzma, .z, .cab, .arj, .war, .ear）
+
+2.  **API設計:**
+    *   各ファイル種別ごとに個別の判定関数を提供します。
+    *   すべての関数は `func IsXxxFile(path string) bool` の形式です。
+    *   拡張子の追加・削除は各関数内の配列を編集することで容易に対応可能です。
+
+3.  **デモプログラム:**
+    *   ファイル種別判定のデモンストレーションを実行できます。
+    *   日本語でファイル種別を表示します。
 
 ## 制限事項
 
-*   初期バージョンでは、非常に大規模なプロジェクトや膨大な数のファイルを含むディレクトリでのパフォーマンスは保証されません。
-*   ファイルのエンコーディングによっては、行数のカウントが不正確になる可能性があります（初期はUTF-8を想定）。
-*   複雑なコメント構造（例: ブロックコメント内に一行コメントが混在する場合）の解析は、初期バージョンでは簡略化される可能性があります。
+*   現在は拡張子のみに基づく判定で、ファイルの内容（MIMEタイプなど）は考慮しません。
+*   拡張子の大文字小文字の違いには対応していません（将来対応予定）。
+*   複数の拡張子を持つファイル（例: .tar.gz）は、より一般的なカテゴリ（アーカイブ）として判定されます。
 
 ## インストール
 
 ```bash
-# プロジェクトの初期化
-go mod init github.com/miyataSUPER/CodePulse--
+# プロジェクトのクローン
+git clone https://github.com/miyataSUPER/CodePulse--
+
+# ディレクトリに移動
+cd CodePulse--/cmd/main
 
 # 依存関係のインストール
 go mod tidy
 
 # ビルド
-go build
+go build .
 ```
 
 ## 使用方法
 
-### 基本的な使い方
+### デモプログラムの実行
 
 ```bash
-# カレントディレクトリの統計情報を表示（デフォルト設定）
-./codepulse
-
-# 特定のディレクトリの統計情報を表示
-./codepulse ./path/to/directory
+# デモプログラムを実行
+./main
 ```
 
-### オプション
+### API使用例
 
-```bash
-# ヘルプを表示
-./codepulse --help
+```go
+package main
 
-# 真偽値オプション
-./codepulse --enable        # 特定の機能を有効化
-./codepulse --verbose       # 詳細な出力を表示
+import (
+    "fmt"
+)
 
-# 出力形式の指定
-./codepulse --format json   # JSON形式で出力（デフォルト）
-./codepulse --format csv    # CSV形式で出力
-./codepulse --format xml    # XML形式で出力
-
-# 数値オプション
-./codepulse --number 10     # 表示する結果の数を指定
-
-# 文字列オプション
-./codepulse --title "統計情報"  # 出力のタイトルを指定
-```
-
-### 出力例（デフォルト形式）
-
-```
-統計情報
-========
-
-Language  Files  Lines  Code  Comments  Blanks
-Go        5      1000   800   100       100
-Python    3      500    400   50        50
-Total     8      1500   1200  150       150
-```
-
-### 出力例（JSON形式）
-
-```json
-{
-  "title": "統計情報",
-  "languages": [
-    {
-      "name": "Go",
-      "files": 5,
-      "lines": 1000,
-      "code": 800,
-      "comments": 100,
-      "blanks": 100
-    },
-    {
-      "name": "Python",
-      "files": 3,
-      "lines": 500,
-      "code": 400,
-      "comments": 50,
-      "blanks": 50
-    }
-  ],
-  "total": {
-    "files": 8,
-    "lines": 1500,
-    "code": 1200,
-    "comments": 150,
-    "blanks": 150
-  }
+func main() {
+    // テキストファイルの判定
+    fmt.Println(IsTextFile("document.txt"))  // true
+    fmt.Println(IsTextFile("readme.md"))     // true
+    
+    // 画像ファイルの判定
+    fmt.Println(IsImageFile("photo.jpg"))    // true
+    fmt.Println(IsImageFile("logo.png"))     // true
+    
+    // 音声ファイルの判定
+    fmt.Println(IsAudioFile("music.mp3"))    // true
+    fmt.Println(IsAudioFile("sound.wav"))    // true
+    
+    // 動画ファイルの判定
+    fmt.Println(IsVideoFile("movie.mp4"))    // true
+    fmt.Println(IsVideoFile("clip.avi"))     // true
+    
+    // ドキュメントファイルの判定
+    fmt.Println(IsDocumentFile("report.pdf")) // true
+    fmt.Println(IsDocumentFile("data.xlsx"))  // true
+    
+    // スクリプトファイルの判定
+    fmt.Println(IsScriptFile("script.py"))   // true
+    fmt.Println(IsScriptFile("build.sh"))    // true
+    
+    // 実行ファイルの判定
+    fmt.Println(IsExecutableFile("app.exe")) // true
+    fmt.Println(IsExecutableFile("lib.dll")) // true
+    
+    // アーカイブファイルの判定
+    fmt.Println(IsArchiveFile("data.zip"))   // true
+    fmt.Println(IsArchiveFile("backup.tar.gz")) // true
 }
 ```
+
+### デモ出力例
+
+```
+=== ファイル種別判定デモ ===
+ファイル名: document.txt    => テキスト
+ファイル名: photo.jpg       => 画像
+ファイル名: music.mp3       => 音声
+ファイル名: movie.mp4       => 動画
+ファイル名: report.pdf      => ドキュメント
+ファイル名: script.py       => スクリプト
+ファイル名: program.exe     => 実行ファイル
+ファイル名: archive.zip     => アーカイブ
+ファイル名: data.csv        => テキスト
+ファイル名: unknown.xyz     => 不明
+```
+
+## API リファレンス
+
+### ファイル種別判定関数
+
+| 関数名 | 対応拡張子 | 戻り値 |
+|--------|------------|--------|
+| `IsTextFile(path string) bool` | .txt, .md, .csv, .log | ファイルがテキストファイルかどうか |
+| `IsImageFile(path string) bool` | .jpg, .jpeg, .png, .gif, .bmp, .svg, .webp | ファイルが画像ファイルかどうか |
+| `IsAudioFile(path string) bool` | .mp3, .wav, .ogg, .flac, .aac | ファイルが音声ファイルかどうか |
+| `IsVideoFile(path string) bool` | .mp4, .avi, .mov, .wmv, .flv, .mkv | ファイルが動画ファイルかどうか |
+| `IsDocumentFile(path string) bool` | .pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx | ファイルがドキュメントファイルかどうか |
+| `IsScriptFile(path string) bool` | .sh, .bat, .ps1, .py, .rb, .pl, .js, .ts | ファイルがスクリプトファイルかどうか |
+| `IsExecutableFile(path string) bool` | .exe, .dll, .so, .bin, .app | ファイルが実行ファイルかどうか |
+| `IsArchiveFile(path string) bool` | .zip, .tar, .gz, .bz2, .rar, .7z, .xz, .tar.gz, .tar.bz2, .tar.xz, .tgz, .tbz2, .lz, .lzma, .z, .cab, .arj, .war, .ear | ファイルがアーカイブファイルかどうか |
 
 ## テスト
 
@@ -127,31 +142,45 @@ Total     8      1500   1200  150       150
 # すべてのテストを実行
 go test -v
 
+# Example関数のテストを実行
+go test -v -run Example
+
 # 特定のテストを実行
-go test -v -run Test_hello
+go test -v -run TestIsArchiveFile
 ```
 
 ## プロジェクト構造
 
 ```
 .
-├── main.go          # メインアプリケーションコード
-├── main_test.go     # テストコード
-├── go.mod           # Goモジュール定義
-├── LICENSE          # ライセンスファイル
-└── README.md        # プロジェクトドキュメント
+├── cmd/
+│   └── main/
+│       ├── main.go          # メインアプリケーションコード・ファイル種別判定関数
+│       └── main_test.go     # テストコード・Example関数
+├── .github/
+│   └── workflows/
+│       ├── build.yaml       # CI/CDワークフロー
+│       └── update_version.yaml # バージョン自動更新ワークフロー
+├── go.mod                   # Goモジュール定義
+├── LICENSE                  # ライセンスファイル
+└── README.md               # プロジェクトドキュメント
 ```
 
-## 今週の課題
+## TODO
 
-1. **CI/CDの設定**
-   - `.github/workflows/build.yaml`の作成
-   - 動作確認の実施
+1. **拡張性の向上**
+   - 拡張子の大文字小文字対応
+   - より多くのファイル形式への対応
+   - 設定ファイルによる拡張子カスタマイズ
 
-2. **コード品質の可視化**
-   - Coverallsへのリポジトリ登録
-     - https://coveralls.io/
-   - Go Report Cardへのリポジトリ登録
-   - 各バッジをREADME.mdに追加
+2. **機能追加**
+   - MIMEタイプによる判定
+   - ファイル内容による判定
+   - 複数ファイルの一括判定
+
+3. **テスト充実**
+   - エラーケースのテスト追加
+   - パフォーマンステスト
+   - 異常系のテスト
 
 
