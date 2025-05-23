@@ -36,7 +36,8 @@ jobs:
       tag: ${{ needs.setup.outputs.tag }}
       upload_url: ${{ needs.setup.outputs.upload_url }}
     steps:
-      - uses: extractions/setup-just@v3
+      - name: setup just
+        uses: extractions/setup-just@v3
         with:
           just-version: '1.40.0'
 
@@ -46,7 +47,7 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: デバッグ: cmd/mainディレクトリ一覧
+      - name: debug directory
         run: ls -l cmd/main
 
       - name: Initialize Git
@@ -58,7 +59,7 @@ jobs:
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
 
-      - name: Create distribution files.
+      - name: Create distribution files
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
