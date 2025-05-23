@@ -1,0 +1,60 @@
+{
+    // 概要:
+    //   このファイルはGoアプリケーションのデバッグ構成を定義します。
+    // 主な仕様:
+    //   - cmd/main/main.go用の標準デバッグ構成
+    //   - cmd/urleap/main.go用の引数付きデバッグ構成
+    // 制限事項:
+    //   - 複数バイナリや引数指定は一部のみ対応
+    // TODO:
+    //   - プログラム引数や環境変数の追加対応
+    //   - 複数構成の追加
+    // FIXME:
+    //   - 特殊なビルドやワークスペース構成時の動作未検証
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // @type {string} 構成名
+            // @description デバッグ時に表示される名前
+            "name": "Launch Go Main",
+            // @type {string} デバッグタイプ
+            // @description Go言語用デバッガを指定
+            "type": "go",
+            // @type {string} リクエストタイプ
+            // @description launch: プログラムを起動してデバッグ
+            "request": "launch",
+            // @type {string} プログラムパス
+            // @description デバッグ対象のGoファイル
+            "program": "${workspaceFolder}/cmd/main/main.go",
+            // @type {boolean} コンソール出力
+            // @description デバッグ時の標準出力を統合ターミナルに表示
+            "console": "integratedTerminal"
+        },
+        {
+            // @type {string} 構成名
+            // @description urleap用デバッグ構成
+            "name": "List Urls for Debugging",
+            // @type {string} デバッグタイプ
+            // @description Go言語用デバッガを指定
+            "type": "go",
+            // @type {string} リクエストタイプ
+            // @description launch: プログラムを起動してデバッグ
+            "request": "launch",
+            // @type {string} デバッグモード
+            // @description デバッグモードで起動
+            "mode": "debug",
+            // @type {string} プログラムパス
+            // @description デバッグ対象のGoファイル
+            "program": "${workspaceFolder}/cmd/urleap/main.go",
+            // @type {array} プログラム引数
+            // @description --token引数を指定（ダミー値）
+            "args": [
+                "--token",
+                "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            ],
+            // @type {boolean} コンソール出力
+            // @description デバッグ時の標準出力を統合ターミナルに表示
+            "console": "integratedTerminal"
+        }
+    ]
+} 
