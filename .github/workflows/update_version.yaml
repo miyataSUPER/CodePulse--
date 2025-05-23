@@ -32,6 +32,8 @@ jobs:
     steps:
       - name: チェックアウト
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Gitユーザー設定
         run: |

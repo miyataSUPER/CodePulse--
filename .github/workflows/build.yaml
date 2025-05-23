@@ -16,6 +16,11 @@ jobs:
           - windows-latest
 
     steps:
+      - name: checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: setup go
         uses: actions/setup-go@v4
         with:
@@ -25,11 +30,14 @@ jobs:
         with:
           just-version: '1.14.0'
 
-      - name: checkout
-        uses: actions/checkout@v4
-
       - name: go mod tidy
         run: go mod tidy
+
+      - name: デバッグ: cmd/mainディレクトリ一覧
+        run: ls -l cmd/main
+
+      - name: デバッグ: filetype.go内容
+        run: cat cmd/main/filetype.go
 
       - name: build and test
         run: just build
