@@ -5,34 +5,6 @@ import (
 	"testing"
 )
 
-func TestIsArchiveFile(t *testing.T) {
-	testCases := []struct {
-		given string // 入力ファイル名
-		want  bool   // 期待値
-	}{
-		// テストケースはここに追加
-	}
-
-	for _, tc := range testCases {
-		got := IsArchiveFile(tc.given)
-		if got != tc.want {
-			t.Errorf("IsArchiveFile(%q) = %v, want %v", tc.given, got, tc.want)
-		}
-	}
-}
-
-func ExampleIsArchiveFile() {
-	fmt.Println(IsArchiveFile("hoge.tar"))
-	fmt.Println(IsArchiveFile("hoge.tar.gz"))
-	fmt.Println(IsArchiveFile("hoge.zip"))
-	fmt.Println(IsArchiveFile("hoge.gz"))
-	// Output:
-	// true
-	// true
-	// true
-	// false
-}
-
 func TestIsTextFile(t *testing.T) {
 	testCases := []struct {
 		given string // 入力ファイル名
@@ -145,6 +117,22 @@ func TestIsExecutableFile(t *testing.T) {
 	}
 }
 
+func TestIsArchiveFile(t *testing.T) {
+	testCases := []struct {
+		given string // 入力ファイル名
+		want  bool   // 期待値
+	}{
+		// テストケースはここに追加
+	}
+
+	for _, tc := range testCases {
+		got := IsArchiveFile(tc.given)
+		if got != tc.want {
+			t.Errorf("IsArchiveFile(%q) = %v, want %v", tc.given, got, tc.want)
+		}
+	}
+}
+
 func ExampleIsTextFile() {
 	fmt.Println(IsTextFile("readme.txt"))
 	fmt.Println(IsTextFile("document.md"))
@@ -222,6 +210,18 @@ func ExampleIsExecutableFile() {
 	fmt.Println(IsExecutableFile("library.dll"))
 	fmt.Println(IsExecutableFile("binary.bin"))
 	fmt.Println(IsExecutableFile("script.py"))
+	// Output:
+	// true
+	// true
+	// true
+	// false
+}
+
+func ExampleIsArchiveFile() {
+	fmt.Println(IsArchiveFile("archive.zip"))
+	fmt.Println(IsArchiveFile("backup.tar.gz"))
+	fmt.Println(IsArchiveFile("compressed.rar"))
+	fmt.Println(IsArchiveFile("document.txt"))
 	// Output:
 	// true
 	// true
