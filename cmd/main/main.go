@@ -202,5 +202,3 @@ func main() {
 		fmt.Println(fileType)
 	}
 }
-
-
