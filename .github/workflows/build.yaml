@@ -37,8 +37,6 @@ jobs:
       - name: debug directory
         run: ls -l cmd/main
 
-      - name: debug filetype
-        run: cat cmd/main/filetype.go
 
       - name: build and test
         run: just build
