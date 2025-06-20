@@ -15,7 +15,8 @@ func TestIsTextFile(t *testing.T) {
 		given string // 入力ファイル名
 		want  bool   // 期待値
 	}{
-		// テストケースはここに追加
+		{"readme.txt", true},
+		{"image.jpg", false},
 	}
 
 	for _, tc := range testCases {
@@ -31,7 +32,8 @@ func TestIsImageFile(t *testing.T) {
 		given string // 入力ファイル名
 		want  bool   // 期待値
 	}{
-		// テストケースはここに追加
+		{"photo.jpg", true},
+		{"document.txt", false},
 	}
 
 	for _, tc := range testCases {
@@ -47,7 +49,8 @@ func TestIsAudioFile(t *testing.T) {
 		given string // 入力ファイル名
 		want  bool   // 期待値
 	}{
-		// テストケースはここに追加
+		{"sound.ogg", true},
+		{"movie.mp4", false},
 	}
 
 	for _, tc := range testCases {
@@ -63,7 +66,8 @@ func TestIsVideoFile(t *testing.T) {
 		given string // 入力ファイル名
 		want  bool   // 期待値
 	}{
-		// テストケースはここに追加
+		{"movie.mp4", true},
+		{"song.mp3", false},
 	}
 
 	for _, tc := range testCases {
@@ -79,7 +83,8 @@ func TestIsDocumentFile(t *testing.T) {
 		given string // 入力ファイル名
 		want  bool   // 期待値
 	}{
-		// テストケースはここに追加
+		{"report.pdf", true},
+		{"script.py", false},
 	}
 
 	for _, tc := range testCases {
@@ -95,7 +100,8 @@ func TestIsScriptFile(t *testing.T) {
 		given string // 入力ファイル名
 		want  bool   // 期待値
 	}{
-		// テストケースはここに追加
+		{"script.py", true},
+		{"document.pdf", false},
 	}
 
 	for _, tc := range testCases {
@@ -111,7 +117,8 @@ func TestIsExecutableFile(t *testing.T) {
 		given string // 入力ファイル名
 		want  bool   // 期待値
 	}{
-		// テストケースはここに追加
+		{"program.exe", true},
+		{"build.sh", false},
 	}
 
 	for _, tc := range testCases {
@@ -127,7 +134,8 @@ func TestIsArchiveFile(t *testing.T) {
 		given string // 入力ファイル名
 		want  bool   // 期待値
 	}{
-		// テストケースはここに追加
+		{"archive.zip", true},
+		{"report.pdf", false},
 	}
 
 	for _, tc := range testCases {

@@ -2,73 +2,51 @@ package main
 
 import "strings"
 
-func ext(path string) string {
-	if i := strings.LastIndex(path, "."); i >= 0 {
-		return strings.ToLower(path[i+1:])
+func hasExtension(path string, exts []string) bool {
+	for _, ext := range exts {
+		if strings.HasSuffix(path, ext) {
+			return true
+		}
 	}
-	return ""
+	return false
 }
 
 func IsTextFile(path string) bool {
-	switch ext(path) {
-	case "txt", "md", "csv", "log":
-		return true
-	}
-	return false
+	exts := []string{".txt", ".md", ".csv", ".log"}
+	return hasExtension(path, exts)
 }
 
 func IsImageFile(path string) bool {
-	switch ext(path) {
-	case "jpg", "jpeg", "png", "gif", "bmp", "svg", "webp":
-		return true
-	}
-	return false
+	exts := []string{".jpg", ".jpeg", ".png", ".gif", ".bmp", ".svg", ".webp"}
+	return hasExtension(path, exts)
 }
 
 func IsAudioFile(path string) bool {
-	switch ext(path) {
-	case "mp3", "wav", "ogg", "flac", "aac":
-		return true
-	}
-	return false
+	exts := []string{".mp3", ".wav", ".ogg", ".flac", ".aac"}
+	return hasExtension(path, exts)
 }
 
 func IsVideoFile(path string) bool {
-	switch ext(path) {
-	case "mp4", "avi", "mov", "wmv", "flv", "mkv":
-		return true
-	}
-	return false
+	exts := []string{".mp4", ".avi", ".mov", ".wmv", ".flv", ".mkv"}
+	return hasExtension(path, exts)
 }
 
 func IsDocumentFile(path string) bool {
-	switch ext(path) {
-	case "pdf", "doc", "docx", "xls", "xlsx", "ppt", "pptx":
-		return true
-	}
-	return false
+	exts := []string{".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx"}
+	return hasExtension(path, exts)
 }
 
 func IsScriptFile(path string) bool {
-	switch ext(path) {
-	case "sh", "bat", "ps1", "py", "rb", "pl", "js", "ts":
-		return true
-	}
-	return false
+	exts := []string{".sh", ".bat", ".ps1", ".py", ".rb", ".pl", ".js", ".ts"}
+	return hasExtension(path, exts)
 }
 
 func IsExecutableFile(path string) bool {
-	switch ext(path) {
-	case "exe", "dll", "so", "bin", "app":
-		return true
-	}
-	return false
+	exts := []string{".exe", ".dll", ".so", ".bin", ".app"}
+	return hasExtension(path, exts)
 }
 
 func IsArchiveFile(path string) bool {
-	switch ext(path) {
-	case "zip", "tar", "gz", "bz2", "rar", "7z", "xz", "tar.gz", "tar.bz2", "tar.xz", "tgz", "tbz2", "lz", "lzma", "z", "cab", "arj", "war", "ear":
-		return true
-	}
-	return false
+	exts := []string{".zip", ".tar", ".gz", ".bz2", ".rar", ".7z", ".xz", ".tar.gz", ".tar.bz2", ".tar.xz", ".tgz", ".tbz2", ".lz", ".lzma", ".z", ".cab", ".arj", ".war", ".ear"}
+	return hasExtension(path, exts)
 }
