@@ -241,3 +241,22 @@ func ExampleIsArchiveFile() {
 	// true
 	// false
 }
+func TestGetFileInfo(t *testing.T) {
+	path, _, err := createTempFile(t.TempDir(), "sample*.txt", "hello world example")
+	if err != nil {
+		t.Fatalf("failed to create temp file: %v", err)
+	}
+	info, err := GetFileInfo(path)
+	if err != nil {
+		t.Fatalf("GetFileInfo error: %v", err)
+	}
+	if info.Type != "テキスト" {
+		t.Errorf("Type = %s, want テキスト", info.Type)
+	}
+	if info.Size == 0 {
+		t.Errorf("Size should not be zero")
+	}
+	if info.Tokens != 3 {
+		t.Errorf("Tokens = %d, want 3", info.Tokens)
+	}
+}
