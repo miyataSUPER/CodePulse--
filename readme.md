@@ -55,6 +55,18 @@ go mod tidy
 go build .
 ```
 
+### Dockerイメージの利用
+
+Dockerfile を使ってコンテナイメージをビルド・実行できます。イメージは GHCR (GitHub Container Registry) にも公開されます。
+
+```bash
+# イメージをビルド
+docker build -t codepulse .
+
+# 実行
+docker run --rm codepulse
+```
+
 ## 使用方法
 
 ### デモプログラムの実行
