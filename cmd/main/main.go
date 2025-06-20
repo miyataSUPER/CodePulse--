@@ -7,6 +7,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
 func main() {
@@ -26,30 +27,17 @@ func main() {
 
 	fmt.Println("=== ファイル種別判定デモ ===")
 	for _, filename := range testFiles {
-		fmt.Printf("ファイル名: %-15s => ", filename)
-
-		var fileType string
-		switch {
-		case IsTextFile(filename):
-			fileType = "テキスト"
-		case IsImageFile(filename):
-			fileType = "画像"
-		case IsAudioFile(filename):
-			fileType = "音声"
-		case IsVideoFile(filename):
-			fileType = "動画"
-		case IsDocumentFile(filename):
-			fileType = "ドキュメント"
-		case IsScriptFile(filename):
-			fileType = "スクリプト"
-		case IsExecutableFile(filename):
-			fileType = "実行ファイル"
-		case IsArchiveFile(filename):
-			fileType = "アーカイブ"
-		default:
-			fileType = "不明"
+		info, err := GetFileInfo(filename)
+		if err != nil {
+			// ファイルが存在しない場合は種別のみ表示
+			if os.IsNotExist(err) {
+				fmt.Printf("ファイル名: %-15s => %s (ファイルなし)\n", filename, GetFileType(filename))
+				continue
+			}
+			fmt.Printf("%s の読み込みに失敗しました: %v\n", filename, err)
+			continue
 		}
-
-		fmt.Println(fileType)
+		fmt.Printf("ファイル名: %-15s => %s, サイズ: %d bytes, トークン数: %d\n",
+			filename, info.Type, info.Size, info.Tokens)
 	}
 }

@@ -117,6 +117,13 @@ func main() {
     // アーカイブファイルの判定
     fmt.Println(IsArchiveFile("data.zip"))   // true
     fmt.Println(IsArchiveFile("backup.tar.gz")) // true
+
+    // ファイル情報の取得
+    info, err := GetFileInfo("sample.txt")
+    if err == nil {
+        fmt.Printf("Type: %s, Size: %d bytes, Tokens: %d\n",
+            info.Type, info.Size, info.Tokens)
+    }
 }
 ```
 
@@ -124,16 +131,16 @@ func main() {
 
 ```
 === ファイル種別判定デモ ===
-ファイル名: document.txt    => テキスト
-ファイル名: photo.jpg       => 画像
-ファイル名: music.mp3       => 音声
-ファイル名: movie.mp4       => 動画
-ファイル名: report.pdf      => ドキュメント
-ファイル名: script.py       => スクリプト
-ファイル名: program.exe     => 実行ファイル
-ファイル名: archive.zip     => アーカイブ
-ファイル名: data.csv        => テキスト
-ファイル名: unknown.xyz     => 不明
+ファイル名: document.txt    => テキスト (ファイルなし)
+ファイル名: photo.jpg       => 画像 (ファイルなし)
+ファイル名: music.mp3       => 音声 (ファイルなし)
+ファイル名: movie.mp4       => 動画 (ファイルなし)
+ファイル名: report.pdf      => ドキュメント (ファイルなし)
+ファイル名: script.py       => スクリプト (ファイルなし)
+ファイル名: program.exe     => 実行ファイル (ファイルなし)
+ファイル名: archive.zip     => アーカイブ (ファイルなし)
+ファイル名: data.csv        => テキスト (ファイルなし)
+ファイル名: unknown.xyz     => 不明 (ファイルなし)
 ```
 
 ## API リファレンス
@@ -150,6 +157,7 @@ func main() {
 | `IsScriptFile(path string) bool` | .sh, .bat, .ps1, .py, .rb, .pl, .js, .ts | ファイルがスクリプトファイルかどうか |
 | `IsExecutableFile(path string) bool` | .exe, .dll, .so, .bin, .app | ファイルが実行ファイルかどうか |
 | `IsArchiveFile(path string) bool` | .zip, .tar, .gz, .bz2, .rar, .7z, .xz, .tar.gz, .tar.bz2, .tar.xz, .tgz, .tbz2, .lz, .lzma, .z, .cab, .arj, .war, .ear | ファイルがアーカイブファイルかどうか |
+| `GetFileInfo(path string) (*FileInfo, error)` | ー | ファイル種別・サイズ・トークン数をまとめて取得 |
 
 ## テスト
 
