@@ -41,7 +41,9 @@ jobs:
         run: cat cmd/main/filetype.go
 
       - name: build and test
-        run: just build
+        run: |
+          just build
+          just test
 
       - name: Convert coverage format to lcov
         uses: jandelgado/gcov2lcov-action@v1.0.9
