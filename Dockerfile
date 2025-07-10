@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Build stage
-FROM golang:1.21 AS builder
+FROM golang:1.20 AS builder
 ARG VERSION
 WORKDIR /src
 COPY . .
@@ -17,7 +17,7 @@ LABEL org.opencontainers.image.source="https://github.com/miyataSUPER/CodePulse-
 RUN adduser -D -h /workdir nonroot \
     && mkdir -p /workdir
 COPY --from=builder /work/codepulse /opt/codepulse/codepulse
-COPY --from=golang:1.21 /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=golang:1.20 /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 WORKDIR /workdir
 USER nonroot
 ENTRYPOINT ["/opt/codepulse/codepulse"]
