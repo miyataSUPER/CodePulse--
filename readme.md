@@ -28,6 +28,8 @@
     *   `GetFileInfo(path string) (*FileInfo, error)` でファイルの詳細情報を取得
     *   ファイル種別、サイズ（バイト）、トークン数（単語数）を一括取得
     *   トークン数は全ファイルタイプで計算（バイナリファイルでも実行される）
+    *   トークン数は空白文字（スペース、タブ、改行）で区切られた単語数をカウント
+    *   空ファイルの場合は0、バイナリファイルの場合は意味のない値が返される
 
 3.  **API設計:**
     *   各ファイル種別ごとに個別の判定関数を提供します。
@@ -125,7 +127,7 @@ func main() {
     fmt.Println(IsArchiveFile("data.zip"))   // true
     fmt.Println(IsArchiveFile("backup.tar.gz")) // true
 
-    // ファイル情報の取得
+    // ファイル情報の取得（テキストファイル）
     info, err := GetFileInfo("sample.txt")
     if err == nil {
         fmt.Printf("Type: %s, Size: %d bytes, Tokens: %d\n",
@@ -137,6 +139,13 @@ func main() {
     if err == nil {
         fmt.Printf("Image: Type=%s, Size=%d bytes, Tokens=%d\n",
             imageInfo.Type, imageInfo.Size, imageInfo.Tokens)
+    }
+    
+    // 複数行のテキストファイルでのトークン数例
+    scriptInfo, err := GetFileInfo("script.py")
+    if err == nil {
+        fmt.Printf("Script: Type=%s, Size=%d bytes, Tokens: %d\n",
+            scriptInfo.Type, scriptInfo.Size, scriptInfo.Tokens)
     }
 }
 ```
@@ -157,6 +166,35 @@ func main() {
 ファイル名: unknown.xyz     => 不明 (ファイルなし)
 ```
 
+### トークン数計算の詳細例
+
+```go
+// 例1: シンプルなテキストファイル
+// 内容: "Hello world example"
+// 結果: Tokens = 3
+
+// 例2: 複数行のテキストファイル
+// 内容: 
+// "package main
+// import "fmt"
+// func main() {
+//     fmt.Println("Hello")
+// }"
+// 結果: Tokens = 12
+
+// 例3: 空のテキストファイル
+// 内容: ""
+// 結果: Tokens = 0
+
+// 例4: バイナリファイル（画像）
+// 内容: バイナリデータ
+// 結果: Tokens = 意味のない値（例: 12345）
+
+// 例5: CSVファイル
+// 内容: "name,age,city\nJohn,25,Tokyo\nJane,30,Osaka"
+// 結果: Tokens = 8
+```
+
 ## API リファレンス
 
 ### ファイル種別判定関数
@@ -172,6 +210,19 @@ func main() {
 | `IsExecutableFile(path string) bool` | .exe, .dll, .so, .bin, .app | ファイルが実行ファイルかどうか |
 | `IsArchiveFile(path string) bool` | .zip, .tar, .gz, .bz2, .rar, .7z, .xz, .tar.gz, .tar.bz2, .tar.xz, .tgz, .tbz2, .lz, .lzma, .z, .cab, .arj, .war, .ear | ファイルがアーカイブファイルかどうか |
 | `GetFileInfo(path string) (*FileInfo, error)` | ー | ファイル種別・サイズ・トークン数をまとめて取得（全ファイルタイプでトークン数計算） |
+| `FileInfo` 構造体 | ー | Type: ファイル種別, Size: サイズ（バイト）, Tokens: トークン数（単語数） |
+
+### トークン数計算の仕様
+
+**計算方法:**
+- `strings.Fields()` を使用して空白文字（スペース、タブ、改行）で区切られた単語数をカウント
+- 空ファイルの場合は0を返す
+- バイナリファイルでも計算されるが、意味のない値が返される
+
+**注意事項:**
+- 全ファイルタイプで計算されるため、大きなバイナリファイルでは処理時間が長くなる
+- 日本語テキストの場合、文字単位ではなく単語単位でカウントされる
+- 特殊文字や記号も単語としてカウントされる
 
 ## テスト
 
