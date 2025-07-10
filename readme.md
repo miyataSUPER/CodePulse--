@@ -1,4 +1,4 @@
-# プロジェクト名: CodePulse++
+# プロジェクト名: CodePulse--
 ![Status](https://img.shields.io/badge/status-開発中-blue)
 ![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?style=flat&logo=go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/miyataSUPER/CodePulse--)](https://goreportcard.com/report/github.com/miyataSUPER/CodePulse--)
