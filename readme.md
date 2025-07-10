@@ -24,12 +24,17 @@
     *   実行ファイル（.exe, .dll, .so, .bin, .app）
     *   アーカイブファイル（.zip, .tar, .gz, .bz2, .rar, .7z, .xz, .tar.gz, .tar.bz2, .tar.xz, .tgz, .tbz2, .lz, .lzma, .z, .cab, .arj, .war, .ear）
 
-2.  **API設計:**
+2.  **ファイル情報取得機能:**
+    *   `GetFileInfo(path string) (*FileInfo, error)` でファイルの詳細情報を取得
+    *   ファイル種別、サイズ（バイト）、トークン数（単語数）を一括取得
+    *   トークン数は全ファイルタイプで計算（バイナリファイルでも実行される）
+
+3.  **API設計:**
     *   各ファイル種別ごとに個別の判定関数を提供します。
     *   すべての関数は `func IsXxxFile(path string) bool` の形式です。
     *   拡張子の追加・削除は各関数内の配列を編集することで容易に対応可能です。
 
-3.  **デモプログラム:**
+4.  **デモプログラム:**
     *   `main.go` でファイル種別判定のデモンストレーションを実行できます。
     *   日本語でファイル種別を表示します。
 
@@ -38,6 +43,8 @@
 *   現在は拡張子のみに基づく判定で、ファイルの内容（MIMEタイプなど）は考慮しません。
 *   拡張子の大文字小文字の違いには対応していません（将来対応予定）。
 *   複数の拡張子を持つファイル（例: .tar.gz）は、より一般的なカテゴリ（アーカイブ）として判定されます。
+*   トークン数計算は全ファイルタイプで実行されるため、バイナリファイル（画像、動画、実行ファイルなど）でも不必要にファイル全体を読み取ります。
+*   大きなバイナリファイルの場合、メモリ使用量が増加する可能性があります。
 
 ## インストール
 
@@ -124,6 +131,13 @@ func main() {
         fmt.Printf("Type: %s, Size: %d bytes, Tokens: %d\n",
             info.Type, info.Size, info.Tokens)
     }
+    
+    // バイナリファイルでもトークン数が計算される（注意）
+    imageInfo, err := GetFileInfo("photo.jpg")
+    if err == nil {
+        fmt.Printf("Image: Type=%s, Size=%d bytes, Tokens=%d\n",
+            imageInfo.Type, imageInfo.Size, imageInfo.Tokens)
+    }
 }
 ```
 
@@ -157,7 +171,7 @@ func main() {
 | `IsScriptFile(path string) bool` | .sh, .bat, .ps1, .py, .rb, .pl, .js, .ts | ファイルがスクリプトファイルかどうか |
 | `IsExecutableFile(path string) bool` | .exe, .dll, .so, .bin, .app | ファイルが実行ファイルかどうか |
 | `IsArchiveFile(path string) bool` | .zip, .tar, .gz, .bz2, .rar, .7z, .xz, .tar.gz, .tar.bz2, .tar.xz, .tgz, .tbz2, .lz, .lzma, .z, .cab, .arj, .war, .ear | ファイルがアーカイブファイルかどうか |
-| `GetFileInfo(path string) (*FileInfo, error)` | ー | ファイル種別・サイズ・トークン数をまとめて取得 |
+| `GetFileInfo(path string) (*FileInfo, error)` | ー | ファイル種別・サイズ・トークン数をまとめて取得（全ファイルタイプでトークン数計算） |
 
 ## テスト
 
@@ -201,6 +215,7 @@ go test -v -run TestIsArchiveFile
    - MIMEタイプによる判定
    - ファイル内容による判定
    - 複数ファイルの一括判定
+   - ファイル種別に応じたトークン数計算の最適化（テキストファイルのみ計算）
 
 3. **テスト充実**
    - エラーケースのテスト追加
